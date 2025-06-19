@@ -1,0 +1,263 @@
+[ConfiguratorImportCAFromUrlAction] - [class com.vmware.o11n.plugins.configurator.actions.ImportCAFromUrlAction]--VALUE: com.vmware.o11n.plugins.configurator.actions.ImportCAFromUrlAction @ 45b015df
+2025 - 06 - 18 12: 23: 24.318 + 0000 INFO {
+    "content": [{
+            "mapping": {
+                "VHH-win-server-2016": {
+                    "constraints": [],
+                    "cloudConfig": "",
+                    "osFamily": "WINDOWS",
+                    "externalRegionId": "Datacenter:datacenter-3",
+                    "isPrivate": false,
+                    "hasOvfProperties": false,
+                    "externalId": "501b1ac0-ce7c-0c60-e5e4-93141983b491",
+                    "name": "Golden image Windows 2016",
+                    "description": "Golden image Windows 2016",
+                    "id": "53e633e4ed562fd601026b208d8c89c3714fccf0",
+                    "_links": {
+                        "region": {
+                            "href": "/iaas/api/regions/0bc3fd05-cc91-42f6-ac17-98e6af3cd321"
+                        }
+                    }
+                },
+                "VHH-lin-redhat-9": {
+                    "constraints": [],
+                    "cloudConfig": "",
+                    "osFamily": "LINUX",
+                    "externalRegionId": "Datacenter:datacenter-3",
+                    "isPrivate": false,
+                    "hasOvfProperties": false,
+                    "externalId": "500957d3-36f7-61d7-5fff-5fd2c831ee00",
+                    "name": "RHEL9_VCF_Shell_Template",
+                    "description": "RHEL9_VCF_Shell_Template",
+                    "id": "03a106cdc2ae8246a7a83ff6407e10f50d53dcd3",
+                    "_links": {
+                        "region": {
+                            "href": "/iaas/api/regions/0bc3fd05-cc91-42f6-ac17-98e6af3cd321"
+                        }
+                    }
+                },
+                "VHH-lin-redhat-8": {
+                    "constraints": [],
+                    "cloudConfig": "",
+                    "osFamily": "LINUX",
+                    "externalRegionId": "Datacenter:datacenter-3",
+                    "isPrivate": false,
+                    "hasOvfProperties": false,
+                    "externalId": "50090917-14cc-7f17-da02-9e0a9f29b89e",
+                    "name": "RHEL8_VCF_Shell_Template",
+                    "description": "RHEL8_VCF_Shell_Template",
+                    "id": "7232bb20cd0f5f1e29855378f6fceab0460b089e",
+                    "_links": {
+                        "region": {
+                            "href": "/iaas/api/regions/0bc3fd05-cc91-42f6-ac17-98e6af3cd321"
+                        }
+                    }
+                },
+                "golden-image": {
+                    "constraints": [],
+                    "cloudConfig": "",
+                    "osFamily": "WINDOWS",
+                    "externalRegionId": "Datacenter:datacenter-3",
+                    "isPrivate": false,
+                    "hasOvfProperties": false,
+                    "externalId": "501b1ac0-ce7c-0c60-e5e4-93141983b491",
+                    "name": "Golden image Windows 2016",
+                    "description": "Golden image Windows 2016",
+                    "id": "53e633e4ed562fd601026b208d8c89c3714fccf0",
+                    "_links": {
+                        "region": {
+                            "href": "/iaas/api/regions/0bc3fd05-cc91-42f6-ac17-98e6af3cd321"
+                        }
+                    }
+                },
+                "VHH-win-server-2022": {
+                    "constraints": [],
+                    "cloudConfig": "",
+                    "osFamily": "WINDOWS",
+                    "externalRegionId": "Datacenter:datacenter-3",
+                    "isPrivate": false,
+                    "hasOvfProperties": false,
+                    "externalId": "5009a604-99e6-b5cd-5d4a-ddebc710f10f",
+                    "name": "Windows2022_VCF_Shell_Template",
+                    "description": "Windows2022_VCF_Shell_Template",
+                    "id": "ec89b3abaf446df5df59b38c63bdea0958be97e6",
+                    "_links": {
+                        "region": {
+                            "href": "/iaas/api/regions/0bc3fd05-cc91-42f6-ac17-98e6af3cd321"
+                        }
+                    }
+                },
+                "IAAC test": {
+                    "constraints": [],
+                    "cloudConfig": "",
+                    "osFamily": "WINDOWS",
+                    "externalRegionId": "Datacenter:datacenter-3",
+                    "isPrivate": false,
+                    "hasOvfProperties": false,
+                    "externalId": "50091271-ce0e-6fcf-1685-1d8ce9060aae",
+                    "name": "Win2022_IAAC_V5",
+                    "description": "Win2022_IAAC_V5",
+                    "id": "6e748263b3327926f392cadf47f40b5895e25749",
+                    "_links": {
+                        "region": {
+                            "href": "/iaas/api/regions/0bc3fd05-cc91-42f6-ac17-98e6af3cd321"
+                        }
+                    }
+                },
+                "VHH-win-server-2019": {
+                    "constraints": [],
+                    "cloudConfig": "",
+                    "osFamily": "WINDOWS",
+                    "externalRegionId": "Datacenter:datacenter-3",
+                    "isPrivate": false,
+                    "hasOvfProperties": false,
+                    "externalId": "5009b965-ab48-cfb4-76da-e09e9521fb4f",
+                    "name": "Windows2019_VCF_Shell_Template",
+                    "description": "Windows2019_VCF_Shell_Template",
+                    "id": "12ed55419e8a62505bd7d41703c49c4cd1a807c0",
+                    "_links": {
+                        "region": {
+                            "href": "/iaas/api/regions/0bc3fd05-cc91-42f6-ac17-98e6af3cd321"
+                        }
+                    }
+                }
+            },
+            "externalRegionId": "Datacenter:datacenter-3",
+            "_links": {
+                "region": {
+                    "href": "/iaas/api/regions/0bc3fd05-cc91-42f6-ac17-98e6af3cd321"
+                }
+            }
+        }, {
+            "mapping": {
+                "VOE-lin-redhat-8": {
+                    "constraints": [],
+                    "cloudConfig": "",
+                    "osFamily": "LINUX",
+                    "externalRegionId": "Datacenter:datacenter-3",
+                    "isPrivate": false,
+                    "hasOvfProperties": false,
+                    "externalId": "5011a23b-1ae5-1df0-7d55-c1a6057ac046",
+                    "name": "RHEL8_VCF_Shell_Template",
+                    "description": "RHEL8_VCF_Shell_Template",
+                    "id": "3d8a821ce5f782d2e9fa9b6752d533a5e16621da",
+                    "_links": {
+                        "region": {
+                            "href": "/iaas/api/regions/1bb11a93-f48b-4991-bd9f-c31ffe5c4589"
+                        }
+                    }
+                },
+                "VOE-lin-redhat-9": {
+                    "constraints": [],
+                    "cloudConfig": "",
+                    "osFamily": "LINUX",
+                    "externalRegionId": "Datacenter:datacenter-3",
+                    "isPrivate": false,
+                    "hasOvfProperties": false,
+                    "externalId": "5011683a-00d2-39ac-5e40-645941ceb5b4",
+                    "name": "RHEL9_VCF_Shell_Template",
+                    "description": "RHEL9_VCF_Shell_Template",
+                    "id": "d13d116cef08c51f0e11d43f9a4ea4400bd02457",
+                    "_links": {
+                        "region": {
+                            "href": "/iaas/api/regions/1bb11a93-f48b-4991-bd9f-c31ffe5c4589"
+                        }
+                    }
+                },
+                "VOE-win-server-2022": {
+                    "constraints": [],
+                    "cloudConfig": "",
+                    "osFamily": "WINDOWS",
+                    "externalRegionId": "Datacenter:datacenter-3",
+                    "isPrivate": false,
+                    "hasOvfProperties": false,
+                    "externalId": "501119a4-2d6f-6024-8991-9480c59c88ef",
+                    "name": "Windows2022_VCF_Shell_Template",
+                    "description": "Windows2022_VCF_Shell_Template",
+                    "id": "0f810f807fb74b792dd8822c2bc0414a80b846ea",
+                    "_links": {
+                        "region": {
+                            "href": "/iaas/api/regions/1bb11a93-f48b-4991-bd9f-c31ffe5c4589"
+                        }
+                    }
+                },
+                "IAAC test": {
+                    "constraints": [],
+                    "cloudConfig": "",
+                    "osFamily": "WINDOWS",
+                    "externalRegionId": "Datacenter:datacenter-3",
+                    "isPrivate": false,
+                    "hasOvfProperties": false,
+                    "externalId": "5011f375-5e85-d6b2-74b3-12f0ebe0b246",
+                    "name": "Win2022_IAAC_V5",
+                    "description": "Win2022_IAAC_V5",
+                    "id": "1239ac99d853521edb7bde3a3a24eb4f2d368bf3",
+                    "_links": {
+                        "region": {
+                            "href": "/iaas/api/regions/1bb11a93-f48b-4991-bd9f-c31ffe5c4589"
+                        }
+                    }
+                },
+                "VOE-win-server-2019": {
+                    "constraints": [],
+                    "cloudConfig": "",
+                    "osFamily": "WINDOWS",
+                    "externalRegionId": "Datacenter:datacenter-3",
+                    "isPrivate": false,
+                    "hasOvfProperties": false,
+                    "externalId": "50111e2b-576d-c37c-5692-c228708afc7a",
+                    "name": "Windows2019_VCF_Shell_Template",
+                    "description": "Windows2019_VCF_Shell_Template",
+                    "id": "ce2844bdb028537aba85623ff7d95bb6f9dcd85a",
+                    "_links": {
+                        "region": {
+                            "href": "/iaas/api/regions/1bb11a93-f48b-4991-bd9f-c31ffe5c4589"
+                        }
+                    }
+                },
+                "dummy-voe": {
+                    "constraints": [],
+                    "cloudConfig": "",
+                    "osFamily": "WINDOWS",
+                    "externalRegionId": "Datacenter:datacenter-3",
+                    "isPrivate": false,
+                    "hasOvfProperties": false,
+                    "externalId": "501172f9-9567-05c2-2c1d-ad960f3a3152",
+                    "name": "Dummy-Template-VOE",
+                    "description": "Dummy-Template-VOE",
+                    "id": "6f5503a473a02066efe523c82dec2bae22912df9",
+                    "_links": {
+                        "region": {
+                            "href": "/iaas/api/regions/1bb11a93-f48b-4991-bd9f-c31ffe5c4589"
+                        }
+                    }
+                },
+                "win-voe": {
+                    "constraints": [],
+                    "cloudConfig": "",
+                    "osFamily": "WINDOWS",
+                    "externalRegionId": "Datacenter:datacenter-3",
+                    "isPrivate": false,
+                    "hasOvfProperties": false,
+                    "externalId": "501172f9-9567-05c2-2c1d-ad960f3a3152",
+                    "name": "Dummy-Template-VOE",
+                    "description": "Dummy-Template-VOE",
+                    "id": "6f5503a473a02066efe523c82dec2bae22912df9",
+                    "_links": {
+                        "region": {
+                            "href": "/iaas/api/regions/1bb11a93-f48b-4991-bd9f-c31ffe5c4589"
+                        }
+                    }
+                }
+            },
+            "externalRegionId": "Datacenter:datacenter-3",
+            "_links": {
+                "region": {
+                    "href": "/iaas/api/regions/1bb11a93-f48b-4991-bd9f-c31ffe5c4589"
+                }
+            }
+        }
+    ],
+    "totalElements": 2,
+    "numberOfElements": 2
+}
