@@ -1,0 +1,198 @@
+-----------------------------------------------------
+
+
+Purpose
+
+This section outlines the process to restore vRealize Automation (vRA) virtual machines from backup in case of corruption, crash, or complete loss of the vRA appliances. The restoration will be coordinated with the Backup and Windows teams
+
+Scope
+
+This SOP applies to restoration of vRA appliances (VHH/VOE) from existing backup configurations in the NetBackup environment. Restoration may be performed as a full VM recovery or a file-level recovery, depending on the nature of the failure.
+
+| Team                  | Responsibility                                                               |
+| --------------------- | ---------------------------------------------------------------------------- |
+| VMware Operations     | Identify affected vRA VM(s) and raise restore request with required details. |
+| Backup Team           | Validate and perform restoration activity via NetBackup.                     |
+| Windows Team          | Power on and validate restored VMs post-restore.                             |
+| Cloud Automation Team | Validate functionality and perform post-restore checks.                      |
+
+
+Prerequisites
+
+Confirm latest successful backup for the affected vRA VMs in NetBackup Activity Monitor.
+
+Gather the following details before initiating the request:
+
+Server Name
+
+Date of Backup
+
+New Server Name (same or alternate display name)
+
+Destination vCenter Name
+
+Destination ESXi Host Name
+
+Destination Datastore Name
+
+Additional instructions (Power on/off after restore, exclude NIC, etc.)
+
+FQDN LB info, DNS , NTP and IP entries for all nodes should exist and resolve correctly. Ensure latest SSL certs are available,
+vRA Appliance OVA files if needed.
+
+Detailed Steps
+Step 1: Verify Backup Availability
+
+Confirm the latest successful backup from the backup team.
+
+
+Step 2: Prepare for Rebuild
+
+Ensure same IP, FQDN, and hostname as the original appliances.
+
+Confirm DNS and reverse lookup resolve correctly.
+
+Validate required network/firewall ports are open.
+
+Ensure vCenter datastore and resource availability
+
+
+Step 3: Deploy Clean vRA Appliances
+
+Deploy new VMs from vRA appliance OVA (same version as backup).
+
+Assign the same IPs, hostnames, and DNS entries as before.
+
+Power on appliances and verify network reachability.
+
+ping <vra-node-fqdn>
+nslookup <vra-node-fqdn>
+
+
+Step 4: Restore from Backup
+
+Engage backup team to initiate restore from latest valid backup.
+
+
+Restoration Steps (Performed by Backup Team)
+
+Validate Backup Type
+
+Open NetBackup Console → Activity Monitor.
+
+Check the configured backup type for the requested VM (File-level / Snapshot).
+
+
+Select the Required Backup
+
+Go to Backup, Archive, and Restore tab in NetBackup Console.
+
+Search for the requested server and select the appropriate backup job.
+
+
+Choose Restore Option
+
+Click Restore → Choose Alternate Location.
+
+Proceed with default options until destination selection.
+
+
+Provide Alternate VM Name
+
+Specify an alternate display name
+
+
+Run Pre-Recovery Check
+
+Click Run Pre-Recovery Check and ensure the check passes successfully.
+
+
+
+Initiate Restoration
+
+Once pre-check passes, click Start Recovery.
+
+
+Handover to Windows Team
+Windowsteam powers on restored VM.
+
+Verify console access and network connectivity (ping, DNS)
+
+
+Handover
+
+Backup team provides restored VM name and completion confirmation.
+
+
+
+Step 5: Post-Restore Validation
+
+Once restore is complete:
+
+a) Validate Appliance Services
+
+vracli status
+kubectl get nodes -o wide
+kubectl get pods -A
+
+Expected:All nodes should be “RUNNING” and “Healthy”.
+
+b) Restart services if needed:
+
+
+Verify VM accessibility via vCenter.
+
+
+C) Check vRA UI and VAMI Access
+
+VAMI: https://<node>:5480
+
+vRA UI: https://<vra-fqdn>
+
+Confirm login with Configadmin account. or vIDM credentials.
+
+d) Confirm NICs, IPs, DNS, and routes settings are correct.
+
+e) Check vRO Integration
+
+Access vRO Control Center:
+https://<vra-fqdn>:8283/vco-controlcenter
+
+Validate:
+
+vco-app
+
+vco-configure
+
+vco-controlcenter
+
+All should be RUNNING.
+
+f) vCenter Integration
+
+Log in to vRA UI → Infrastructure → Endpoints.
+
+Verify vCenter endpoint exists and status = Healthy.
+Confirm compute resources are visible under Cloud Zones.
+
+
+Step 7: Verify Cluster and Services
+
+Check load balancer health status (all nodes healthy).
+
+Validate: vracli cluster status
+
+
+
+
+Step 8: Final Functional Validation
+All pods and services should be in “RUNNING” state.
+
+Perform quick test provisioning:
+Confirm automation services and blueprints are accessible
+
+Deploy one test VM from catalog.
+
+Verify request lifecycle completes successfully.
+
+Execute Day-2 operations (power off/on, delete).
