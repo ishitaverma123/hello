@@ -1,0 +1,155 @@
+-------------------------------------------------------------
+
+🧾 vRA Rebuild & Restore Process — When Backups Are Available
+1️⃣ Objective
+
+To rebuild and restore a vRealize Automation (vRA) environment using existing appliance and database backups after an appliance failure or corruption.
+
+2️⃣ Prerequisites
+Item	Details
+Backup Type	File-level or VM-level backup (verified and consistent)
+Backup Components	vRA appliances, vRO, and vIDM (if external)
+Backup Tool	e.g., Veeam / Commvault / Rubrik / NetBackup
+OVA Files	vRA Appliance OVA, vIDM OVA (if needed)
+Network Details	IPs, DNS, NTP, Certificates, LB info
+vCenter Details	Cluster, Datastore, Hosts
+Reference Docs	Build SOP, Backup SOP, Architecture Diagram
+3️⃣ Process Flow (High Level)
+
+1. Verify Backup Integrity → 2. Deploy Clean VMs → 3. Restore from Backup → 4. Validate Services → 5. Post-Restore Configuration
+
+4️⃣ Detailed Steps
+Step 1: Verify Backup Availability
+
+Confirm the latest successful backup from the backup team.
+
+Validate:
+
+All vRA nodes and vRO/vIDM backups are present.
+
+Timestamps match (taken when environment was stable).
+
+Backup restore test previously passed (sanity verified).
+
+Step 2: Prepare for Rebuild
+
+Ensure same IP, FQDN, and hostname as the original appliances.
+
+Confirm DNS and reverse lookup resolve correctly.
+
+Validate required network/firewall ports are open.
+
+Ensure vCenter datastore and resource availability.
+
+Step 3: Deploy Clean vRA Appliances
+
+Deploy new VMs from vRA appliance OVA (same version as backup).
+
+Assign the same IPs, hostnames, and DNS entries as before.
+
+Power on appliances and verify network reachability.
+
+ping <vra-node-fqdn>
+nslookup <vra-node-fqdn>
+
+Step 4: Restore from Backup
+
+Engage backup team to initiate restore from latest valid backup.
+
+Restore all vRA nodes simultaneously (if multi-node cluster).
+
+Restore external components (vRO / vIDM) if applicable.
+
+Confirm backup software logs show restore completed successfully.
+
+💡 Example: For Veeam, the restore type is “Full VM Restore to Original Location”.
+
+Step 5: Post-Restore Validation
+
+Once restore is complete:
+
+a) Validate Appliance Services
+vracli cluster status
+vracli cluster health
+kubectl get nodes -A
+
+
+✅ All nodes should be “RUNNING” and “Healthy”.
+
+b) Check vRA UI and VAMI Access
+
+VAMI: https://<node>:5480
+
+vRA UI: https://<vra-fqdn>
+
+Confirm login with system or vIDM credentials.
+
+c) Check vRO Integration
+
+Access Control Center:
+https://<vra-fqdn>:8283/vco-controlcenter
+
+Validate workflows are available and operational.
+
+d) Check vCenter Endpoint
+
+In vRA → Infrastructure → Endpoints → vCenter
+
+Test connection.
+
+Confirm compute resources and templates visible.
+
+e) Check vIDM Authentication
+
+Validate login via vIDM (if external or embedded).
+
+Confirm directory sync and identity sources are intact.
+
+Step 6: Validate Key Integrations
+Integration	Check	Expected Result
+ITSSP	API token refresh & service test	Successful
+Cosmos	Workflow trigger test	Success
+Notification services	Alerts and events	Working
+Step 7: Verify Cluster and Services
+
+Check load balancer health status (all nodes healthy).
+
+Validate:
+
+vracli cluster members
+vracli status
+
+
+All pods and services should be in “RUNNING” state.
+
+Step 8: Final Functional Validation
+
+Perform quick test provisioning:
+
+Deploy one test VM from catalog.
+
+Verify request lifecycle completes successfully.
+
+Execute Day-2 operations (power off/on, delete).
+
+Step 9: Closeout
+
+Document successful validation.
+
+Update rebuild log with date/time and responsible engineers.
+
+Notify stakeholders that environment is restored.
+
+5️⃣ Troubleshooting (Common Restore Issues)
+Issue	Root Cause	Resolution
+Cluster unsynced	Node mismatch or version drift	Check vracli cluster join and sync version
+vRA UI down	Service not started	Restart vRA service / vracli service restart
+vIDM login fails	Cert mismatch or NTP issue	Sync time & verify cert validity
+vCenter endpoint error	Credential or DNS issue	Update endpoint credentials / fix DNS
+✅ End Result
+
+vRA environment restored to last known working state.
+
+Cluster operational and integrations functional.
+
+All appliances healthy and verified.
