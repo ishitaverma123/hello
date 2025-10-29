@@ -1,0 +1,216 @@
+-----------------------------------------------------------------
+
+🧾 vRealize Automation (vRA) Rebuild Process – Scenario A (Restore from Backup)
+1️⃣ Objective
+
+This procedure details how to rebuild the vRA environment when appliances are restored from NetBackup snapshots following corruption or loss.
+The goal is to restore VM availability, rejoin nodes into the cluster (if required), validate vRA services, and restore integrations (vIDM, vCenter, Cosmos, ITSSP).
+
+2️⃣ Prerequisites
+Requirement	Description
+Backup Validation	Confirm the latest valid NetBackup snapshot backup exists for each vRA VM.
+Access	Ensure vCenter, NetBackup Console, and vRA credentials are available.
+Details Required	Server Name, Date of Backup, Destination vCenter, ESXi, Datastore, New Display Name (optional).
+DNS Entries	FQDN and IP entries for all nodes should exist and resolve correctly.
+Certificates	Ensure latest SSL certs (for 443 and 5480) are available, if restoration invalidates them.
+NTP	NTP must sync correctly for cluster validation.
+3️⃣ VM Restoration Process (NetBackup)
+
+(Performed by Backup Team on request from VMware Operations)
+
+Verify Backup Type
+
+In NetBackup Console → Activity Monitor, confirm VM has a Snapshot backup.
+
+Note the backup date and job ID.
+
+Initiate Restore
+
+Navigate to Backup, Archive and Restore tab.
+
+Select the correct backup and click Restore.
+
+Restore to Alternate Location
+
+Choose Restore to alternate location option.
+
+Enter new display name (e.g., vrasvr41p_restore) if restoring to test before final cutover.
+
+Run Pre-Recovery Check
+
+Validate that pre-check passes successfully.
+
+Start Recovery
+
+Click Start Recovery and wait for restoration to complete.
+
+Post-Restore Validation
+
+Windows/VMware team powers on restored VM.
+
+Verify console access and network connectivity (ping, DNS).
+
+Handover
+
+Backup team provides restored VM name and completion confirmation.
+
+4️⃣ vRA Appliance Rebuild Steps (Post-Restore)
+
+Once the restored appliances are available and booted, follow these steps to rebuild operational functionality.
+
+4.1 Basic Validation
+
+On each node:
+
+vracli status
+vracli cluster health
+kubectl get nodes -o wide
+kubectl get pods -A
+
+
+✅ Expected:
+
+All pods in Running or Completed state
+
+Cluster nodes show Healthy
+
+If not:
+
+Run:
+
+vracli cluster join <master-node-fqdn>
+vracli cluster rebalance
+
+
+Restart services if needed:
+
+systemctl restart vami-lighttp
+systemctl restart vmware-vpostgres
+vracli service restart
+
+4.2 Network and Certificate Revalidation
+
+Confirm NICs, IPs, DNS, and routes are correct.
+
+Test access:
+
+https://<vra-node>:5480 (VAMI)
+
+https://<vra-fqdn> (Main Portal)
+
+Reapply SSL certificate via VAMI if invalid or expired.
+
+4.3 vIDM (Workspace ONE Access) Integration
+
+Access vRA via VAMI → Identity & Access Management
+
+Check existing vIDM URL, credentials, and connection status.
+
+If broken:
+
+Re-establish integration with existing vIDM (import configuration or re-link).
+
+Validate login via vIDM user.
+
+4.4 vRO Validation
+
+Access vRO Control Center:
+https://<vra-fqdn>:8283/vco-controlcenter
+
+Validate:
+
+vco-app
+
+vco-configure
+
+vco-controlcenter
+All should be RUNNING.
+
+If not:
+
+systemctl restart vco-app
+systemctl restart vco-configurator
+systemctl restart vco-server
+
+4.5 vCenter Integration
+
+Log in to vRA UI → Infrastructure → Endpoints.
+
+Verify vCenter endpoint exists and status = Healthy.
+
+If not:
+
+Edit endpoint → re-enter credentials → Validate.
+
+Confirm compute resources are visible under Cloud Zones.
+
+4.6 Restore Automation Integrations (if needed)
+Integration	Checkpoint	Action if Missing
+Cosmos / ITSSP	Test API call to vRA	Recreate endpoint and token if invalid
+AD / LDAP	Verify under Identity Providers	Re-add binding or test sync
+Custom Blueprints / Projects	Check Cloud Assembly → Projects	Import content via backup or JSON export
+4.7 vRA Cluster Validation
+
+Run on any node:
+
+vracli cluster status
+
+
+✅ Expected:
+
+All nodes RUNNING
+
+Cluster sync = True
+
+Replication and services = Healthy
+
+If not:
+
+Run:
+
+vracli cluster join --force
+vracli cluster rebalance
+
+5️⃣ Post-Restore Validation Checklist
+Check	Command / Action	Expected Result
+Appliance Reachability	ping + nslookup	All nodes reachable
+Service Status	vracli status	All services RUNNING
+Cluster Health	vracli cluster health	Healthy
+vRO Access	Web console	Working
+vIDM Integration	Login test	Success
+vCenter Integration	Endpoint validation	Healthy
+Certificates	Browser access to 443/5480	Valid SSL
+Automation Workflows	Trigger test blueprint	Success
+Load Balancer (if used)	LB health check	All nodes up
+6️⃣ Finalization
+
+Update DNS or Load Balancer VIP (if restored on new VMs).
+
+Verify NTP synchronization on all nodes:
+
+timedatectl status
+
+
+Inform relevant Ops and Application teams post successful validation.
+
+Document the restore details in internal Confluence / SOP version tracker.
+
+7️⃣ References
+
+NetBackup Restore SOP (Backup Team)
+
+vRA Build Document v1.0
+
+VMware KB 77089 – vRA Recovery and Disaster Handling
+
+vRLCM Operations Guide
+
+✅ End Result
+
+After completing this process:
+
+Restored vRA appliances are booted, healthy, and clustered.
+
+All integrations (vCenter, vIDM, Cosmos) are operational.
+
+Automation services are functional without full redeployment.
