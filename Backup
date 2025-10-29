@@ -1,0 +1,125 @@
+-----------------------------------------------------------------
+5. vRA Restoration Process (In Case of Appliance Failure)
+5.1 Purpose
+
+This section outlines the process to restore vRealize Automation (vRA) virtual machines from backup in case of corruption, crash, or complete loss of the vRA appliances. The restoration will be coordinated with the Backup and Windows teams using Veritas NetBackup.
+
+5.2 Scope
+
+This SOP applies to restoration of vRA appliances (VHH/VOE) from existing backup configurations in the NetBackup environment. Restoration may be performed as a full VM recovery or a file-level recovery, depending on the nature of the failure.
+
+5.3 Responsibilities
+Team	Responsibility
+VMware Operations	Identify affected vRA VM(s) and raise restore request with required details.
+Backup Team	Validate and perform restoration activity via NetBackup.
+Windows Team	Power on and validate restored VMs post-restore.
+Cloud Automation Team	Validate functionality and perform post-restore checks.
+5.4 Prerequisites
+
+Confirm latest successful backup for the affected vRA VMs in NetBackup Activity Monitor.
+
+Gather the following details before initiating the request:
+
+Server Name
+
+Date of Backup
+
+New Server Name (same or alternate display name)
+
+Destination vCenter Name
+
+Destination ESXi Host Name
+
+Destination Datastore Name
+
+Additional instructions (Power on/off after restore, exclude NIC, etc.)
+
+5.5 Restoration Process Overview
+a) File-Level Backup
+
+Used when only specific directories or configuration files need to be restored.
+The Backup team restores selected files or folders as requested by VMware Operations.
+
+b) Snapshot (VM-Level) Backup
+
+Used to restore entire vRA virtual machines. Restored VM will be named as <VMName>_Restore.
+
+5.6 Snapshot VM Restoration Steps (Performed by Backup Team)
+
+Validate Backup Type
+
+Open NetBackup Console → Activity Monitor.
+
+Check the configured backup type for the requested VM (File-level / Snapshot).
+
+Select the Required Backup
+
+Go to Backup, Archive, and Restore tab in NetBackup Console.
+
+Search for the requested server and select the appropriate backup job.
+
+Choose Restore Option
+
+Click Restore → Choose Alternate Location.
+
+Proceed with default options until destination selection.
+
+Provide Alternate VM Name
+
+Specify an alternate display name, e.g., apl-vrasvr41p_restore.
+
+Run Pre-Recovery Check
+
+Click Run Pre-Recovery Check and ensure the check passes successfully.
+
+Initiate Restoration
+
+Once pre-check passes, click Start Recovery.
+
+Completion and Handover
+
+Upon completion, inform the Windows team of the alternate VM name.
+
+Windows team will power on and validate the VM boot.
+
+5.7 Post-Restoration Validation (Performed by VMware/Automation Team)
+
+Verify VM accessibility via vCenter.
+
+Confirm network settings and IP address assignment.
+
+Ensure services within vRA are up and running:
+
+vracli status
+vracli cluster health
+kubectl get nodes -o wide
+kubectl get pods -A
+
+
+Check connectivity to vCenter and Identity Manager (Workspace ONE Access).
+
+Validate vRA login using the Configadmin account.
+
+Confirm automation services and blueprints are accessible.
+
+Update restoration details in the incident record and SOP documentation.
+
+5.8 Notes
+
+Restored VMs are initially kept powered off until validation approval.
+
+Do not modify NIC settings unless instructed by the VMware Operations team.
+
+Ensure restored vRA cluster nodes maintain correct DNS and FQDN configuration.
+
+Backup and restoration activity must be logged under incident record for traceability.
+
+5.9 References
+
+NetBackup Internal Procedure Document (Backup Team)
+
+vRA Build SOP Document
+
+VMware Knowledge Base: VMware vRealize Automation Recovery Guide
+
+---------------------------------------------------------------------
