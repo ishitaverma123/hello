@@ -1,0 +1,37 @@
+[29/10, 1:51 pm] Ishita Verma: 4. vRA Rebuild from Scratch
+
+(This section is your “vRA Rebuild Document” — the one you referenced in your message.)
+
+Use the same structure you already have:
+
+4.1 Document Info
+
+4.2 Objective
+
+4.3 Scope
+
+4.4 Prerequisites
+
+4.5 Deployment Steps (Deploy vRA appliances, configure cluster, vRO, vIDM, vCenter, etc.)
+
+4.6 Post-deployment validation
+
+4.7 Troubleshooting
+
+4.8 Change history
+[29/10, 1:52 pm] Ishita Verma: 5. Post-Recovery / Post-Rebuild Actions
+Task	Description
+Validate vRA cluster health	Run vracli cluster status, ensure all nodes healthy
+Check integration endpoints	vCenter, vIDM, Cosmos, ITSSP
+Verify certificates	SSL validation on 443 and 5480
+Update documentation	Record new build or restore details
+Communicate to stakeholders	Inform relevant Ops and Automation teams
+6. Reference Documents
+
+vRA Build SOP (Version 1.0)
+
+NetBackup Internal Procedure Document
+
+VMware KB: vRealize Automation Appliance Recovery and Rebuild
+
+vRLCM Deployment Guide
